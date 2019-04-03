@@ -1,4 +1,6 @@
-﻿namespace CodeTree
+﻿using System;
+
+namespace CodeTree
 {
     partial class CodeTreeForm
     {
@@ -586,6 +588,7 @@
             this.Name = "CodeTreeForm";
             this.Text = "CodeTree";
             this.Load += new System.EventHandler(this.CodeTreeForm_Load);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.CodeTreeForm_OnClosing);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.groupBox1.ResumeLayout(false);

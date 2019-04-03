@@ -84,8 +84,8 @@ namespace CodeTree
                 };
 
                 project.Themes.Add(theme);
-                codeTreeView.Nodes.Add(theme.Name, theme.Name);
                 ProjectChanged();
+                UpdateTree();
             }
         }
 
@@ -1100,6 +1100,14 @@ namespace CodeTree
             var newFont = new Font(currentFont.Name, currentFontSize);
             int myNodeHeight = newFont.Height;
             codeTreeView.ItemHeight = myNodeHeight + 4;
+        }
+
+        private void CodeTreeForm_OnClosing(object sender, FormClosingEventArgs e)
+        {
+            if (projectChanged && !AskPermission("Det finns osparade ändringar - vill du verkligen avsluta?"))
+            {
+                e.Cancel = true;
+            }
         }
     }
 }
