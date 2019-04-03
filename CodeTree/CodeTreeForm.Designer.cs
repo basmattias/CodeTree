@@ -92,7 +92,7 @@ namespace CodeTree
             this.trädToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1263, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(1327, 28);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "mainMenu";
             // 
@@ -239,7 +239,7 @@ namespace CodeTree
             | System.Windows.Forms.AnchorStyles.Right)));
             this.codeTreeView.Location = new System.Drawing.Point(9, 18);
             this.codeTreeView.Name = "codeTreeView";
-            this.codeTreeView.Size = new System.Drawing.Size(408, 521);
+            this.codeTreeView.Size = new System.Drawing.Size(454, 521);
             this.codeTreeView.TabIndex = 1;
             // 
             // meaningListView
@@ -248,7 +248,7 @@ namespace CodeTree
             | System.Windows.Forms.AnchorStyles.Right)));
             this.meaningListView.Location = new System.Drawing.Point(6, 21);
             this.meaningListView.Name = "meaningListView";
-            this.meaningListView.Size = new System.Drawing.Size(220, 514);
+            this.meaningListView.Size = new System.Drawing.Size(234, 514);
             this.meaningListView.TabIndex = 2;
             this.meaningListView.UseCompatibleStateImageBehavior = false;
             this.meaningListView.DoubleClick += new System.EventHandler(this.meaningListView_DoubleClick);
@@ -261,9 +261,9 @@ namespace CodeTree
             this.groupBox1.Controls.Add(this.btnRemoveCondensed);
             this.groupBox1.Controls.Add(this.btnAddCondensed);
             this.groupBox1.Controls.Add(this.meaningListView);
-            this.groupBox1.Location = new System.Drawing.Point(1025, 32);
+            this.groupBox1.Location = new System.Drawing.Point(1075, 32);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(238, 578);
+            this.groupBox1.Size = new System.Drawing.Size(252, 578);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Condensed meaning units";
@@ -271,9 +271,9 @@ namespace CodeTree
             // btnCondensedInfo
             // 
             this.btnCondensedInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCondensedInfo.Location = new System.Drawing.Point(173, 543);
+            this.btnCondensedInfo.Location = new System.Drawing.Point(187, 546);
             this.btnCondensedInfo.Name = "btnCondensedInfo";
-            this.btnCondensedInfo.Size = new System.Drawing.Size(53, 27);
+            this.btnCondensedInfo.Size = new System.Drawing.Size(53, 28);
             this.btnCondensedInfo.TabIndex = 4;
             this.btnCondensedInfo.Text = "&Cmu";
             this.btnCondensedInfo.UseVisualStyleBackColor = true;
@@ -282,7 +282,7 @@ namespace CodeTree
             // btnRemoveCondensed
             // 
             this.btnRemoveCondensed.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnRemoveCondensed.Location = new System.Drawing.Point(91, 541);
+            this.btnRemoveCondensed.Location = new System.Drawing.Point(105, 546);
             this.btnRemoveCondensed.Name = "btnRemoveCondensed";
             this.btnRemoveCondensed.Size = new System.Drawing.Size(76, 28);
             this.btnRemoveCondensed.TabIndex = 3;
@@ -293,9 +293,9 @@ namespace CodeTree
             // btnAddCondensed
             // 
             this.btnAddCondensed.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAddCondensed.Location = new System.Drawing.Point(6, 542);
+            this.btnAddCondensed.Location = new System.Drawing.Point(6, 546);
             this.btnAddCondensed.Name = "btnAddCondensed";
-            this.btnAddCondensed.Size = new System.Drawing.Size(79, 28);
+            this.btnAddCondensed.Size = new System.Drawing.Size(93, 28);
             this.btnAddCondensed.TabIndex = 3;
             this.btnAddCondensed.Text = "&Lägg till...";
             this.btnAddCondensed.UseVisualStyleBackColor = true;
@@ -310,7 +310,7 @@ namespace CodeTree
             this.groupBox2.Controls.Add(this.codeTreeView);
             this.groupBox2.Location = new System.Drawing.Point(12, 28);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(423, 582);
+            this.groupBox2.Size = new System.Drawing.Size(469, 582);
             this.groupBox2.TabIndex = 4;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Tematräd";
@@ -319,7 +319,7 @@ namespace CodeTree
             // 
             this.lblTopLevel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblTopLevel.AutoSize = true;
-            this.lblTopLevel.Location = new System.Drawing.Point(6, 546);
+            this.lblTopLevel.Location = new System.Drawing.Point(6, 548);
             this.lblTopLevel.Name = "lblTopLevel";
             this.lblTopLevel.Size = new System.Drawing.Size(111, 17);
             this.lblTopLevel.TabIndex = 2;
@@ -333,9 +333,9 @@ namespace CodeTree
             this.groupBox3.Controls.Add(this.btnRemoveCode);
             this.groupBox3.Controls.Add(this.btnAddCode);
             this.groupBox3.Controls.Add(this.codesListView);
-            this.groupBox3.Location = new System.Drawing.Point(809, 31);
+            this.groupBox3.Location = new System.Drawing.Point(842, 31);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(210, 579);
+            this.groupBox3.Size = new System.Drawing.Size(227, 579);
             this.groupBox3.TabIndex = 5;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Koder";
@@ -343,7 +343,7 @@ namespace CodeTree
             // btnCodeInfo
             // 
             this.btnCodeInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCodeInfo.Location = new System.Drawing.Point(175, 542);
+            this.btnCodeInfo.Location = new System.Drawing.Point(192, 546);
             this.btnCodeInfo.Name = "btnCodeInfo";
             this.btnCodeInfo.Size = new System.Drawing.Size(29, 28);
             this.btnCodeInfo.TabIndex = 2;
@@ -354,9 +354,9 @@ namespace CodeTree
             // btnRemoveCode
             // 
             this.btnRemoveCode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnRemoveCode.Location = new System.Drawing.Point(94, 542);
+            this.btnRemoveCode.Location = new System.Drawing.Point(104, 546);
             this.btnRemoveCode.Name = "btnRemoveCode";
-            this.btnRemoveCode.Size = new System.Drawing.Size(75, 28);
+            this.btnRemoveCode.Size = new System.Drawing.Size(82, 28);
             this.btnRemoveCode.TabIndex = 1;
             this.btnRemoveCode.Text = "Ta b&ort...";
             this.btnRemoveCode.UseVisualStyleBackColor = true;
@@ -365,9 +365,9 @@ namespace CodeTree
             // btnAddCode
             // 
             this.btnAddCode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAddCode.Location = new System.Drawing.Point(6, 542);
+            this.btnAddCode.Location = new System.Drawing.Point(6, 546);
             this.btnAddCode.Name = "btnAddCode";
-            this.btnAddCode.Size = new System.Drawing.Size(82, 28);
+            this.btnAddCode.Size = new System.Drawing.Size(92, 28);
             this.btnAddCode.TabIndex = 1;
             this.btnAddCode.Text = "L&ägg till...";
             this.btnAddCode.UseVisualStyleBackColor = true;
@@ -377,9 +377,9 @@ namespace CodeTree
             // 
             this.codesListView.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.codesListView.Location = new System.Drawing.Point(6, 22);
+            this.codesListView.Location = new System.Drawing.Point(6, 21);
             this.codesListView.Name = "codesListView";
-            this.codesListView.Size = new System.Drawing.Size(198, 514);
+            this.codesListView.Size = new System.Drawing.Size(215, 514);
             this.codesListView.TabIndex = 0;
             this.codesListView.UseCompatibleStateImageBehavior = false;
             this.codesListView.DoubleClick += new System.EventHandler(this.CodesListView_DoubleClick);
@@ -392,9 +392,9 @@ namespace CodeTree
             this.groupBox4.Controls.Add(this.btnRemoveCategory);
             this.groupBox4.Controls.Add(this.btnAddCategory);
             this.groupBox4.Controls.Add(this.categoryListView);
-            this.groupBox4.Location = new System.Drawing.Point(593, 32);
+            this.groupBox4.Location = new System.Drawing.Point(615, 32);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(210, 578);
+            this.groupBox4.Size = new System.Drawing.Size(221, 578);
             this.groupBox4.TabIndex = 6;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Kategorier";
@@ -402,9 +402,9 @@ namespace CodeTree
             // btnCategoryInfo
             // 
             this.btnCategoryInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCategoryInfo.Location = new System.Drawing.Point(170, 542);
+            this.btnCategoryInfo.Location = new System.Drawing.Point(181, 546);
             this.btnCategoryInfo.Name = "btnCategoryInfo";
-            this.btnCategoryInfo.Size = new System.Drawing.Size(34, 27);
+            this.btnCategoryInfo.Size = new System.Drawing.Size(34, 28);
             this.btnCategoryInfo.TabIndex = 2;
             this.btnCategoryInfo.Text = "&K";
             this.btnCategoryInfo.UseVisualStyleBackColor = true;
@@ -413,9 +413,9 @@ namespace CodeTree
             // btnRemoveCategory
             // 
             this.btnRemoveCategory.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnRemoveCategory.Location = new System.Drawing.Point(89, 542);
+            this.btnRemoveCategory.Location = new System.Drawing.Point(100, 546);
             this.btnRemoveCategory.Name = "btnRemoveCategory";
-            this.btnRemoveCategory.Size = new System.Drawing.Size(75, 28);
+            this.btnRemoveCategory.Size = new System.Drawing.Size(79, 28);
             this.btnRemoveCategory.TabIndex = 1;
             this.btnRemoveCategory.Text = "Ta bort&...";
             this.btnRemoveCategory.UseVisualStyleBackColor = true;
@@ -424,9 +424,9 @@ namespace CodeTree
             // btnAddCategory
             // 
             this.btnAddCategory.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAddCategory.Location = new System.Drawing.Point(6, 542);
+            this.btnAddCategory.Location = new System.Drawing.Point(6, 546);
             this.btnAddCategory.Name = "btnAddCategory";
-            this.btnAddCategory.Size = new System.Drawing.Size(77, 28);
+            this.btnAddCategory.Size = new System.Drawing.Size(88, 28);
             this.btnAddCategory.TabIndex = 1;
             this.btnAddCategory.Text = "Lä&gg till...";
             this.btnAddCategory.UseVisualStyleBackColor = true;
@@ -436,9 +436,9 @@ namespace CodeTree
             // 
             this.categoryListView.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.categoryListView.Location = new System.Drawing.Point(6, 22);
+            this.categoryListView.Location = new System.Drawing.Point(6, 21);
             this.categoryListView.Name = "categoryListView";
-            this.categoryListView.Size = new System.Drawing.Size(198, 513);
+            this.categoryListView.Size = new System.Drawing.Size(209, 514);
             this.categoryListView.TabIndex = 0;
             this.categoryListView.UseCompatibleStateImageBehavior = false;
             this.categoryListView.DoubleClick += new System.EventHandler(this.CategoryListView_DoubleClick);
@@ -446,7 +446,7 @@ namespace CodeTree
             // btnExpand
             // 
             this.btnExpand.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnExpand.Location = new System.Drawing.Point(441, 91);
+            this.btnExpand.Location = new System.Drawing.Point(489, 91);
             this.btnExpand.Name = "btnExpand";
             this.btnExpand.Size = new System.Drawing.Size(107, 31);
             this.btnExpand.TabIndex = 7;
@@ -457,7 +457,7 @@ namespace CodeTree
             // btnCollapse
             // 
             this.btnCollapse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCollapse.Location = new System.Drawing.Point(441, 54);
+            this.btnCollapse.Location = new System.Drawing.Point(489, 54);
             this.btnCollapse.Name = "btnCollapse";
             this.btnCollapse.Size = new System.Drawing.Size(107, 31);
             this.btnCollapse.TabIndex = 7;
@@ -470,7 +470,7 @@ namespace CodeTree
             this.lblThemes.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblThemes.AutoSize = true;
-            this.lblThemes.Location = new System.Drawing.Point(442, 327);
+            this.lblThemes.Location = new System.Drawing.Point(487, 324);
             this.lblThemes.Name = "lblThemes";
             this.lblThemes.Size = new System.Drawing.Size(68, 17);
             this.lblThemes.TabIndex = 8;
@@ -481,7 +481,7 @@ namespace CodeTree
             this.lblCategories.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblCategories.AutoSize = true;
-            this.lblCategories.Location = new System.Drawing.Point(442, 344);
+            this.lblCategories.Location = new System.Drawing.Point(487, 341);
             this.lblCategories.Name = "lblCategories";
             this.lblCategories.Size = new System.Drawing.Size(90, 17);
             this.lblCategories.TabIndex = 9;
@@ -492,7 +492,7 @@ namespace CodeTree
             this.lblCodes.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblCodes.AutoSize = true;
-            this.lblCodes.Location = new System.Drawing.Point(442, 361);
+            this.lblCodes.Location = new System.Drawing.Point(487, 358);
             this.lblCodes.Name = "lblCodes";
             this.lblCodes.Size = new System.Drawing.Size(62, 17);
             this.lblCodes.TabIndex = 10;
@@ -503,7 +503,7 @@ namespace CodeTree
             this.lblCmus.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblCmus.AutoSize = true;
-            this.lblCmus.Location = new System.Drawing.Point(442, 378);
+            this.lblCmus.Location = new System.Drawing.Point(487, 375);
             this.lblCmus.Name = "lblCmus";
             this.lblCmus.Size = new System.Drawing.Size(96, 17);
             this.lblCmus.TabIndex = 11;
@@ -512,7 +512,7 @@ namespace CodeTree
             // btnExpandAll
             // 
             this.btnExpandAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnExpandAll.Location = new System.Drawing.Point(460, 129);
+            this.btnExpandAll.Location = new System.Drawing.Point(508, 129);
             this.btnExpandAll.Name = "btnExpandAll";
             this.btnExpandAll.Size = new System.Drawing.Size(88, 23);
             this.btnExpandAll.TabIndex = 12;
@@ -523,7 +523,7 @@ namespace CodeTree
             // btnThemes
             // 
             this.btnThemes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnThemes.Location = new System.Drawing.Point(460, 159);
+            this.btnThemes.Location = new System.Drawing.Point(508, 159);
             this.btnThemes.Name = "btnThemes";
             this.btnThemes.Size = new System.Drawing.Size(88, 23);
             this.btnThemes.TabIndex = 13;
@@ -534,7 +534,7 @@ namespace CodeTree
             // btnExpandCategories
             // 
             this.btnExpandCategories.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnExpandCategories.Location = new System.Drawing.Point(460, 189);
+            this.btnExpandCategories.Location = new System.Drawing.Point(508, 189);
             this.btnExpandCategories.Name = "btnExpandCategories";
             this.btnExpandCategories.Size = new System.Drawing.Size(88, 23);
             this.btnExpandCategories.TabIndex = 14;
@@ -545,7 +545,7 @@ namespace CodeTree
             // btnExpandCodes
             // 
             this.btnExpandCodes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnExpandCodes.Location = new System.Drawing.Point(460, 219);
+            this.btnExpandCodes.Location = new System.Drawing.Point(508, 219);
             this.btnExpandCodes.Name = "btnExpandCodes";
             this.btnExpandCodes.Size = new System.Drawing.Size(88, 23);
             this.btnExpandCodes.TabIndex = 15;
@@ -557,7 +557,7 @@ namespace CodeTree
             // 
             this.lblFont.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.lblFont.AutoSize = true;
-            this.lblFont.Location = new System.Drawing.Point(445, 549);
+            this.lblFont.Location = new System.Drawing.Point(487, 528);
             this.lblFont.Name = "lblFont";
             this.lblFont.Size = new System.Drawing.Size(60, 17);
             this.lblFont.TabIndex = 16;
@@ -567,7 +567,7 @@ namespace CodeTree
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1263, 613);
+            this.ClientSize = new System.Drawing.Size(1327, 613);
             this.Controls.Add(this.lblFont);
             this.Controls.Add(this.btnExpandCodes);
             this.Controls.Add(this.btnExpandCategories);
@@ -587,8 +587,8 @@ namespace CodeTree
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "CodeTreeForm";
             this.Text = "CodeTree";
-            this.Load += new System.EventHandler(this.CodeTreeForm_Load);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.CodeTreeForm_OnClosing);
+            this.Load += new System.EventHandler(this.CodeTreeForm_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.groupBox1.ResumeLayout(false);
