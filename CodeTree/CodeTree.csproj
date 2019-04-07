@@ -142,7 +142,6 @@
     <EmbeddedResource Include="ThemeForm.resx">
       <DependentUpon>ThemeForm.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="CodeTree_TemporaryKey.pfx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

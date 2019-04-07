@@ -1,13 +1,11 @@
 ﻿using CodeTree.Models;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Serialization;
@@ -21,6 +19,8 @@ namespace CodeTree
         private bool projectChanged;
 
         private int currentFontSize;
+
+        #region Constructor and Initialization
 
         public CodeTreeForm()
         {
@@ -48,6 +48,26 @@ namespace CodeTree
             categoryListView.Columns.Add("Kategorier", 130, HorizontalAlignment.Left);
         }
 
+        private void CodeTreeForm_Load(object sender, EventArgs e)
+        {
+            var currentFont = codeTreeView.Font;
+            var newFont = new Font(currentFont.Name, currentFontSize);
+            int myNodeHeight = newFont.Height;
+            codeTreeView.ItemHeight = myNodeHeight + 4;
+        }
+
+        private void CodeTreeForm_OnClosing(object sender, FormClosingEventArgs e)
+        {
+            if (projectChanged && !AskPermission("Det finns osparade ändringar - vill du verkligen avsluta?"))
+            {
+                e.Cancel = true;
+            }
+        }
+
+        #endregion
+
+        #region Menu items
+
         private void avslutaToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (projectChanged && !AskPermission("Det finns osparade ändringar - vill du verkligen avsluta?"))
@@ -63,14 +83,6 @@ namespace CodeTree
 
             ClearProject();
             UpdateTree();
-        }
-
-        private bool AskPermission(string v)
-        {
-            if (System.Windows.Forms.MessageBox.Show(v, "CodeTree", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                return true;
-
-            return false;
         }
 
         private void addThemeToolStripMenuItem_Click(object sender, EventArgs e)
@@ -89,6 +101,297 @@ namespace CodeTree
             }
         }
 
+        private void uppdateraToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            UpdateTree();
+            UpdateListViews();
+        }
+
+        private void sparaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(projectFileName))
+            {
+                sparaSomToolStripMenuItem_Click(sender, e);
+                return;
+            }
+
+            SaveProject(projectFileName);
+        }
+
+        private void öppnaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var dlg = new OpenFileDialog();
+            dlg.DefaultExt = "xml";
+            dlg.ValidateNames = true;
+            dlg.Filter = "XML file (.xml)|*.xml|All files (*.*)|*.*";
+
+            if (dlg.ShowDialog() != DialogResult.OK)
+                return;
+
+            ClearProject();
+
+            XmlSerializer xsReceive = new XmlSerializer(typeof(Project));
+            var xml = File.ReadAllText(dlg.FileName);
+
+            using (var sr = new StringReader(xml))
+            {
+                using (XmlReader reader = XmlReader.Create(sr))
+                {
+                    project = (Project)xsReceive.Deserialize(reader);
+                }
+            }
+
+            projectChanged = false;
+            projectFileName = dlg.FileName;
+
+            UpdateTree();
+            UpdateListViews();
+        }
+
+        private void sparaSomToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var frm = new SaveFileDialog();
+            frm.DefaultExt = "xml";
+            frm.ValidateNames = true;
+            frm.Filter = "XML file (.xml)|*.xml|All files (*.*)|*.*";
+            if (frm.ShowDialog() != DialogResult.OK)
+                return;
+
+            SaveProject(frm.FileName);
+        }
+
+        private void SaveProject(string fileName)
+        {
+            XmlSerializer xsSubmit = new XmlSerializer(typeof(Project));
+            var xml = "";
+
+            using (var sww = new StringWriter())
+            {
+                using (XmlWriter writer = XmlWriter.Create(sww))
+                {
+                    xsSubmit.Serialize(writer, project);
+                    xml = sww.ToString();
+                }
+            }
+
+            File.WriteAllText(fileName, xml);
+            projectFileName = fileName;
+            projectChanged = false;
+            UpdateHeadline();
+        }
+
+        private void zoomInToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (codeTreeView.Nodes.Count == 0)
+                return;
+
+            ChangeTreeViewFont(1);
+        }
+
+        private void zoomOutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (codeTreeView.Nodes.Count == 0)
+                return;
+
+            ChangeTreeViewFont(-1);
+        }
+
+        private void ChangeTreeViewFont(int change)
+        {
+            codeTreeView.BeginUpdate();
+
+            var currentFont = codeTreeView.Nodes[0].NodeFont;
+            if (currentFont == null)
+            {
+                currentFont = codeTreeView.Font;
+            }
+
+            currentFontSize += change;
+            lblFont.Text = $"Font: {currentFontSize}";
+
+            var newFont = new Font(currentFont.Name, currentFontSize);
+
+            foreach (TreeNode node in codeTreeView.Nodes)
+            {
+                node.NodeFont = newFont;
+                node.Text = node.Text;
+
+                foreach (TreeNode subNode in node.Nodes)
+                {
+                    subNode.NodeFont = newFont;
+                    subNode.Text = subNode.Text;
+
+                    foreach (TreeNode subsubNode in subNode.Nodes)
+                    {
+                        subsubNode.NodeFont = newFont;
+                        subsubNode.Text = subsubNode.Text;
+
+                        foreach (TreeNode subsubsubNode in subsubNode.Nodes)
+                        {
+                            subsubsubNode.NodeFont = newFont;
+                            subsubsubNode.Text = subsubsubNode.Text;
+                        }
+                    }
+                }
+            }
+
+            Rectangle myRectangle = codeTreeView.Nodes[0].Bounds;
+            int myNodeHeight = myRectangle.Height;
+            codeTreeView.ItemHeight = myNodeHeight + 3 * change;
+
+            codeTreeView.EndUpdate();
+        }
+
+        private void exporteraToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var frm = new SaveFileDialog();
+            frm.DefaultExt = "txt";
+            frm.ValidateNames = true;
+            frm.Filter = "TXT file (.txt)|*.txt|All files (*.*)|*.*";
+            if (frm.ShowDialog() != DialogResult.OK)
+                return;
+
+            var sb = new StringBuilder();
+
+            foreach (TreeNode node in codeTreeView.Nodes)
+            {
+                sb.AppendLine($"+---{node.Text}");
+
+                foreach (TreeNode subNode in node.Nodes)
+                {
+                    sb.AppendLine($"|   +---{subNode.Text}");
+
+                    foreach (TreeNode subsubNode in subNode.Nodes)
+                    {
+                        sb.AppendLine($"|   |   +---{subsubNode.Text}");
+
+                        foreach (TreeNode subsubsubNode in subsubNode.Nodes)
+                        {
+                            sb.AppendLine($"|   |   |   +---{subsubsubNode.Text}");
+                        }
+                    }
+                }
+            }
+
+            var outputStrings = sb.ToString();
+            File.WriteAllText(frm.FileName, outputStrings);
+        }
+
+        private void toolStripImport_Click(object sender, EventArgs e)
+        {
+            var dlg = new OpenFileDialog();
+            dlg.DefaultExt = "txt";
+            dlg.ValidateNames = true;
+            dlg.Filter = "OpenCode file (.txt)|*.txt|All files (*.*)|*.*";
+
+            if (dlg.ShowDialog() != DialogResult.OK)
+                return;
+
+            if (!File.Exists(dlg.FileName))
+            {
+                System.Windows.Forms.MessageBox.Show("Filen finns inte.", "Importera", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            int interviewNumber = 0;
+            var name = Path.GetFileNameWithoutExtension(dlg.FileName);
+            var len = name.Length;
+            if (Char.IsDigit(name[len - 2]) && Char.IsDigit(name[len - 2]) &&
+                Char.IsDigit(name[len - 1]) && Char.IsDigit(name[len - 1]))
+            {
+                // two last numeric
+                interviewNumber = int.Parse(name.Substring(len - 2));
+            }
+            else if (Char.IsDigit(name[len - 1]) && Char.IsDigit(name[len - 1]))
+            {
+                interviewNumber = int.Parse(name.Substring(len - 1));
+            }
+
+            ImportOpenCodeFile(dlg.FileName, interviewNumber);
+        }
+
+        private void ImportOpenCodeFile(string fileName, int interviewNumber)
+        {
+            var textLines = File.ReadAllLines(fileName, Encoding.GetEncoding(1252));
+            if (textLines.Count() > 0)
+            {
+                // Add an extra line to update the last package
+                var tmpList = textLines.ToList();
+                tmpList.Add("99999\t\t\t\t\t");
+                textLines = tmpList.ToArray();
+            }
+
+            var lastLineNumber = 0;
+            var currentMeaningUnits = new List<string>();
+            var condensedMeaningUnits = new List<CondensedMeaningUnit>();
+
+            foreach (var textLine in textLines)
+            {
+                var textParts = textLine.Split('\t');
+                if (textParts.Length < 4)
+                    continue;
+
+                int lineNumber = int.Parse(textParts[0]);
+                var meaningUnit = textParts[1];
+                var condensed = textParts[2];
+                var code = textParts[3];
+
+                if (lineNumber > lastLineNumber + 1)
+                {
+                    // New paragraph - add meaning units to newly added condensed ones, and restart
+                    foreach (var cmu in condensedMeaningUnits)
+                    {
+                        foreach (var mu in currentMeaningUnits)
+                        {
+                            cmu.MeaningUnits.Add(new MeaningUnit()
+                            {
+                                Name = mu
+                            });
+                        }
+                    }
+
+                    currentMeaningUnits = new List<string>();
+                    condensedMeaningUnits = new List<CondensedMeaningUnit>();
+
+                    lastLineNumber = lineNumber - 1;
+                }
+
+                if (lineNumber == lastLineNumber + 1)
+                {
+                    if (!string.IsNullOrEmpty(code))
+                    {
+                        AddCode(code);
+                    }
+                    if (!string.IsNullOrEmpty(condensed))
+                    {
+                        var newCondensed = AddCondensedMeaningUnit(interviewNumber, condensed, code);
+                        if (newCondensed != null)
+                            condensedMeaningUnits.Add(newCondensed);
+                    }
+                    if (!string.IsNullOrEmpty(meaningUnit))
+                    {
+                        currentMeaningUnits.Add(meaningUnit);
+                    }
+                }
+
+                lastLineNumber = lineNumber;
+            }
+
+            UpdateTree();
+        }
+
+        #endregion
+
+        #region Helper functions
+
+        private bool AskPermission(string v)
+        {
+            if (System.Windows.Forms.MessageBox.Show(v, "CodeTree", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                return true;
+
+            return false;
+        }
+
         private void ProjectChanged()
         {
             if (projectChanged)
@@ -97,6 +400,54 @@ namespace CodeTree
             projectChanged = true;
             UpdateHeadline();
         }
+
+        private void ClearProject()
+        {
+            project = new Project();
+            projectFileName = string.Empty;
+            projectChanged = false;
+
+            meaningListView.Clear();
+            codesListView.Clear();
+            categoryListView.Clear();
+
+            InitializeViews();
+        }
+
+        private CondensedMeaningUnit AddCondensedMeaningUnit(int interviewNumber, string condensed, string code)
+        {
+            var iNrString = interviewNumber.ToString();
+            if (project.CondensedMeaningUnits.Any(cmu => cmu.Name == condensed && cmu.InterviewNumber == iNrString))
+                return null;
+
+            var newCondensed = new CondensedMeaningUnit()
+            {
+                InterviewNumber = iNrString,
+                Name = condensed,
+                CodeName = code,
+                MeaningUnits = new List<MeaningUnit>()
+            };
+
+            project.CondensedMeaningUnits.Add(newCondensed);
+            var displayText = $"[{newCondensed.InterviewNumber}] {newCondensed.Name}";
+            meaningListView.Items.Add(newCondensed.Name, displayText, newCondensed.CondensedMeaningUnitId);
+
+            return newCondensed;
+        }
+
+        private void AddCode(string code)
+        {
+            if (project.Codes.Any(c => c.Name == code))
+                return;
+
+            var newCode = new Code() { Name = code };
+            project.Codes.Add(newCode);
+            codesListView.Items.Add(code, code, newCode.CodeId);
+        }
+
+        #endregion
+
+        #region CondensedMeaningUnits
 
         private void btnAddCondensed_Click(object sender, EventArgs e)
         {
@@ -196,6 +547,10 @@ namespace CodeTree
                 }
             }
         }
+
+        #endregion
+        
+        #region Codes
 
         private void btnAddCode_Click(object sender, EventArgs e)
         {
@@ -337,6 +692,10 @@ namespace CodeTree
             }
         }
 
+        #endregion
+
+        #region Categories
+
         private void btnAddCategory_Click(object sender, EventArgs e)
         {
             var category = new Category();
@@ -418,6 +777,64 @@ namespace CodeTree
                 }
             }
         }
+
+        private void btnRemoveCategory_Click(object sender, EventArgs e)
+        {
+            string name;
+
+            if (categoryListView.SelectedItems.Count == 1)
+            {
+                name = categoryListView.SelectedItems[0].Name;
+            }
+            else
+            {
+                return;
+            }
+
+            if (System.Windows.Forms.MessageBox.Show($"Ta bort {name}?", "Ta bort", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                categoryListView.Items.RemoveByKey(name);
+                var item = project.Categories.Find(x => x.Name == name);
+                if (item != null)
+                {
+                    project.Categories.Remove(item);
+                    ProjectChanged();
+                    UpdateTree();
+                }
+            }
+        }
+
+        #endregion
+
+        #region Themes
+
+        private void taBortGruppToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string name;
+
+            if (codeTreeView.SelectedNode != null)
+            {
+                name = codeTreeView.SelectedNode.Name;
+            }
+            else
+            {
+                return;
+            }
+
+            if (System.Windows.Forms.MessageBox.Show($"Ta bort {name}?", "Ta bort", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                codeTreeView.Nodes.RemoveByKey(name);
+                var item = project.Themes.Find(x => x.Name == name);
+                if (item != null)
+                {
+                    project.Themes.Remove(item);
+                    ProjectChanged();
+                    UpdateTree();
+                }
+            }
+        }
+
+        #endregion 
 
         private void UpdateTree()
         {
@@ -643,64 +1060,6 @@ namespace CodeTree
             this.Text = headline;
         }
 
-        private void btnRemoveCategory_Click(object sender, EventArgs e)
-        {
-            string name;
-
-            if (categoryListView.SelectedItems.Count == 1)
-            {
-                name = categoryListView.SelectedItems[0].Name;
-            }
-            else
-            {
-                return;
-            }
-
-            if (System.Windows.Forms.MessageBox.Show($"Ta bort {name}?", "Ta bort", MessageBoxButtons.YesNo) == DialogResult.Yes)
-            {
-                categoryListView.Items.RemoveByKey(name);
-                var item = project.Categories.Find(x => x.Name == name);
-                if (item != null)
-                {
-                    project.Categories.Remove(item);
-                    ProjectChanged();
-                    UpdateTree();
-                }
-            }
-        }
-
-        private void taBortGruppToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            string name;
-
-            if (codeTreeView.SelectedNode != null)
-            {
-                name = codeTreeView.SelectedNode.Name;
-            }
-            else
-            {
-                return;
-            }
-
-            if (System.Windows.Forms.MessageBox.Show($"Ta bort {name}?", "Ta bort", MessageBoxButtons.YesNo) == DialogResult.Yes)
-            {
-                codeTreeView.Nodes.RemoveByKey(name);
-                var item = project.Themes.Find(x => x.Name == name);
-                if (item != null)
-                {
-                    project.Themes.Remove(item);
-                    ProjectChanged();
-                    UpdateTree();
-                }
-            }
-        }
-
-        private void uppdateraToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            UpdateTree();
-            UpdateListViews();
-        }
-
         private void UpdateListViews()
         {
             categoryListView.Items.Clear();
@@ -760,6 +1119,8 @@ namespace CodeTree
             }
         }
 
+        #region Expand/Collapse
+
         private void btnExpand_Click(object sender, EventArgs e)
         {
             btnExpandCodes_Click(sender, e);
@@ -770,107 +1131,6 @@ namespace CodeTree
             codeTreeView.BeginUpdate();
             codeTreeView.CollapseAll();
             codeTreeView.EndUpdate();
-        }
-
-        private void btnCategoryInfo_Click(object sender, EventArgs e)
-        {
-            CategoryListView_DoubleClick(sender, e);
-        }
-
-        private void btnCodeInfo_Click(object sender, EventArgs e)
-        {
-            CodesListView_DoubleClick(sender, e);
-        }
-
-        private void btnCondensedInfo_Click(object sender, EventArgs e)
-        {
-            meaningListView_DoubleClick(sender, e);
-        }
-
-        private void sparaToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (string.IsNullOrEmpty(projectFileName))
-            {
-                sparaSomToolStripMenuItem_Click(sender, e);
-                return;
-            }
-
-            SaveProject(projectFileName);
-        }
-
-        private void ClearProject()
-        {
-            project = new Project();
-            projectFileName = string.Empty;
-            projectChanged = false;
-
-            meaningListView.Clear();
-            codesListView.Clear();
-            categoryListView.Clear();
-
-            InitializeViews();
-        }
-
-        private void öppnaToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var dlg = new OpenFileDialog();
-            dlg.DefaultExt = "xml";
-            dlg.ValidateNames = true;
-            dlg.Filter = "XML file (.xml)|*.xml|All files (*.*)|*.*";
-
-            if (dlg.ShowDialog() != DialogResult.OK)
-                return;
-
-            ClearProject();
-
-            XmlSerializer xsReceive = new XmlSerializer(typeof(Project));
-            var xml = File.ReadAllText(dlg.FileName);
-
-            using (var sr = new StringReader(xml))
-            {
-                using (XmlReader reader = XmlReader.Create(sr))
-                {
-                    project = (Project) xsReceive.Deserialize(reader);
-                }
-            }
-
-            projectChanged = false;
-            projectFileName = dlg.FileName;
-
-            UpdateTree();
-            UpdateListViews();
-        }
-
-        private void sparaSomToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var frm = new SaveFileDialog();
-            frm.DefaultExt = "xml";
-            frm.ValidateNames = true;
-            frm.Filter = "XML file (.xml)|*.xml|All files (*.*)|*.*";
-            if (frm.ShowDialog() != DialogResult.OK)
-                return;
-
-            SaveProject(frm.FileName);
-        }
-
-        private void SaveProject(string fileName)
-        {
-            XmlSerializer xsSubmit = new XmlSerializer(typeof(Project));
-            var xml = "";
-
-            using (var sww = new StringWriter())
-            {
-                using (XmlWriter writer = XmlWriter.Create(sww))
-                {
-                    xsSubmit.Serialize(writer, project);
-                    xml = sww.ToString();
-                }
-            }
-
-            File.WriteAllText(fileName, xml);
-            projectFileName = fileName;
-            projectChanged = false;
-            UpdateHeadline();
         }
 
         private void btnExpandAll_Click(object sender, EventArgs e)
@@ -935,251 +1195,6 @@ namespace CodeTree
             codeTreeView.EndUpdate();
         }
 
-        private void toolStripImport_Click(object sender, EventArgs e)
-        {
-            var dlg = new OpenFileDialog();
-            dlg.DefaultExt = "txt";
-            dlg.ValidateNames = true;
-            dlg.Filter = "OpenCode file (.txt)|*.txt|All files (*.*)|*.*";
-
-            if (dlg.ShowDialog() != DialogResult.OK)
-                return;
-
-            if (!File.Exists(dlg.FileName))
-            {
-                System.Windows.Forms.MessageBox.Show("Filen finns inte.", "Importera", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            int interviewNumber = 0;
-            var name = Path.GetFileNameWithoutExtension(dlg.FileName);
-            var len = name.Length;
-            if (Char.IsDigit(name[len-2]) && Char.IsDigit(name[len-2]) &&
-                Char.IsDigit(name[len-1]) && Char.IsDigit(name[len-1]))
-            {
-                // two last numeric
-                interviewNumber = int.Parse(name.Substring(len - 2));
-            }
-            else if (Char.IsDigit(name[len - 1]) && Char.IsDigit(name[len - 1]))
-            {
-                interviewNumber = int.Parse(name.Substring(len - 1));
-            }
-
-            ImportOpenCodeFile(dlg.FileName, interviewNumber);
-        }
-
-        private void ImportOpenCodeFile(string fileName, int interviewNumber)
-        {
-            var textLines = File.ReadAllLines(fileName, Encoding.GetEncoding(1252));
-            if (textLines.Count() > 0)
-            {
-                // Add an extra line to update the last package
-                var tmpList = textLines.ToList();
-                tmpList.Add("99999\t\t\t\t\t");
-                textLines = tmpList.ToArray();
-            }
-
-            var lastLineNumber = 0;
-            var currentMeaningUnits = new List<string>();
-            var condensedMeaningUnits = new List<CondensedMeaningUnit>();
-
-            foreach (var textLine in textLines)
-            {
-                var textParts = textLine.Split('\t');
-                if (textParts.Length < 4)
-                    continue;
-
-                int lineNumber = int.Parse(textParts[0]);
-                var meaningUnit = textParts[1];
-                var condensed = textParts[2];
-                var code = textParts[3];
-
-                if (lineNumber > lastLineNumber + 1)
-                {
-                    // New paragraph - add meaning units to newly added condensed ones, and restart
-                    foreach (var cmu in condensedMeaningUnits)
-                    {
-                        foreach (var mu in currentMeaningUnits)
-                        {
-                            cmu.MeaningUnits.Add(new MeaningUnit()
-                            {
-                                Name = mu
-                            });
-                        }
-                    }
-
-                    currentMeaningUnits = new List<string>();
-                    condensedMeaningUnits = new List<CondensedMeaningUnit>();
-
-                    lastLineNumber = lineNumber - 1;
-                }
-
-                if (lineNumber == lastLineNumber + 1)
-                {
-                    if (!string.IsNullOrEmpty(code))
-                    {
-                        AddCode(code);
-                    }
-                    if (!string.IsNullOrEmpty(condensed))
-                    {
-                        var newCondensed = AddCondensedMeaningUnit(interviewNumber, condensed, code);
-                        if (newCondensed != null)
-                            condensedMeaningUnits.Add(newCondensed);
-                    }
-                    if (!string.IsNullOrEmpty(meaningUnit))
-                    {
-                        currentMeaningUnits.Add(meaningUnit);
-                    }
-                }
-
-                lastLineNumber = lineNumber;
-            }
-
-            UpdateTree();
-        }
-
-        private CondensedMeaningUnit AddCondensedMeaningUnit(int interviewNumber, string condensed, string code)
-        {
-            var iNrString = interviewNumber.ToString();
-            if (project.CondensedMeaningUnits.Any(cmu => cmu.Name == condensed && cmu.InterviewNumber == iNrString))
-                return null;
-
-            var newCondensed = new CondensedMeaningUnit()
-            {
-                InterviewNumber = iNrString,
-                Name = condensed,
-                CodeName = code,
-                MeaningUnits = new List<MeaningUnit>()
-            };
-
-            project.CondensedMeaningUnits.Add(newCondensed);
-            var displayText = $"[{newCondensed.InterviewNumber}] {newCondensed.Name}";
-            meaningListView.Items.Add(newCondensed.Name, displayText, newCondensed.CondensedMeaningUnitId);
-
-            return newCondensed;
-        }
-
-        private void AddCode(string code)
-        {
-            if (project.Codes.Any(c => c.Name == code))
-                return;
-
-            var newCode = new Code() { Name = code };
-            project.Codes.Add(newCode);
-            codesListView.Items.Add(code, code, newCode.CodeId);
-        }
-
-        private void zoomInToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (codeTreeView.Nodes.Count == 0)
-                return;
-
-            ChangeTreeViewFont(1);
-        }
-
-        private void zoomOutToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (codeTreeView.Nodes.Count == 0)
-                return;
-
-            ChangeTreeViewFont(-1);
-        }
-
-        private void ChangeTreeViewFont(int change)
-        {
-            codeTreeView.BeginUpdate();
-
-            var currentFont = codeTreeView.Nodes[0].NodeFont;
-            if (currentFont == null)
-            {
-                currentFont = codeTreeView.Font;
-            }
-
-            currentFontSize += change;
-            lblFont.Text = $"Font: {currentFontSize}";
-
-            var newFont = new Font(currentFont.Name, currentFontSize);
-
-            foreach (TreeNode node in codeTreeView.Nodes)
-            {
-                node.NodeFont = newFont;
-                node.Text = node.Text;
-
-                foreach (TreeNode subNode in node.Nodes)
-                {
-                    subNode.NodeFont = newFont;
-                    subNode.Text = subNode.Text;
-
-                    foreach (TreeNode subsubNode in subNode.Nodes)
-                    {
-                        subsubNode.NodeFont = newFont;
-                        subsubNode.Text = subsubNode.Text;
-
-                        foreach (TreeNode subsubsubNode in subsubNode.Nodes)
-                        {
-                            subsubsubNode.NodeFont = newFont;
-                            subsubsubNode.Text = subsubsubNode.Text;
-                        }
-                    }
-                }
-            }
-
-            Rectangle myRectangle = codeTreeView.Nodes[0].Bounds;
-            int myNodeHeight = myRectangle.Height;
-            codeTreeView.ItemHeight = myNodeHeight + 3 * change;
-
-            codeTreeView.EndUpdate();
-        }
-
-        private void exporteraToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var frm = new SaveFileDialog();
-            frm.DefaultExt = "txt";
-            frm.ValidateNames = true;
-            frm.Filter = "TXT file (.txt)|*.txt|All files (*.*)|*.*";
-            if (frm.ShowDialog() != DialogResult.OK)
-                return;
-
-            var sb = new StringBuilder();
-
-            foreach (TreeNode node in codeTreeView.Nodes)
-            {
-                sb.AppendLine($"+---{node.Text}");
-
-                foreach (TreeNode subNode in node.Nodes)
-                {
-                    sb.AppendLine($"|   +---{subNode.Text}");
-
-                    foreach (TreeNode subsubNode in subNode.Nodes)
-                    {
-                        sb.AppendLine($"|   |   +---{subsubNode.Text}");
-
-                        foreach (TreeNode subsubsubNode in subsubNode.Nodes)
-                        {
-                            sb.AppendLine($"|   |   |   +---{subsubsubNode.Text}");
-                        }
-                    }
-                }
-            }
-
-            var outputStrings = sb.ToString();
-            File.WriteAllText(frm.FileName, outputStrings);
-        }
-
-        private void CodeTreeForm_Load(object sender, EventArgs e)
-        {
-            var currentFont = codeTreeView.Font;
-            var newFont = new Font(currentFont.Name, currentFontSize);
-            int myNodeHeight = newFont.Height;
-            codeTreeView.ItemHeight = myNodeHeight + 4;
-        }
-
-        private void CodeTreeForm_OnClosing(object sender, FormClosingEventArgs e)
-        {
-            if (projectChanged && !AskPermission("Det finns osparade ändringar - vill du verkligen avsluta?"))
-            {
-                e.Cancel = true;
-            }
-        }
+        #endregion
     }
 }
