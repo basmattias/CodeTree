@@ -36,7 +36,7 @@ namespace CodeTree
             tbName.Text = code.Name;
             tbCmuCount.Text = cmuCount.ToString();
 
-            cmbCategories.Items.AddRange(categoryList.Select(x => x.Name).ToArray());
+            cmbCategories.Items.AddRange(categoryList.OrderBy(x => x.Name).Select(x => x.Name).ToArray());
             if (!string.IsNullOrEmpty(code.CategoryName))
             {
                 cmbCategories.Text = code.CategoryName;

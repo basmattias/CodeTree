@@ -32,7 +32,7 @@ namespace CodeTree
 
         private void CategoryForm_Load(object sender, EventArgs e)
         {
-            cmbThemes.Items.AddRange(themeList.Select(x => x.Name).ToArray());
+            cmbThemes.Items.AddRange(themeList.OrderBy(x => x.Name).Select(x => x.Name).ToArray());
             if (!string.IsNullOrEmpty(category.ThemeName))
             {
                 cmbThemes.Text = category.ThemeName;

@@ -51,18 +51,15 @@ namespace CodeTree
             this.codeTreeView = new System.Windows.Forms.TreeView();
             this.meaningListView = new System.Windows.Forms.ListView();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.btnCondensedInfo = new System.Windows.Forms.Button();
             this.btnRemoveCondensed = new System.Windows.Forms.Button();
             this.btnAddCondensed = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.lblTopLevel = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.btnCodeInfo = new System.Windows.Forms.Button();
             this.btnRemoveCode = new System.Windows.Forms.Button();
             this.btnAddCode = new System.Windows.Forms.Button();
             this.codesListView = new System.Windows.Forms.ListView();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.btnCategoryInfo = new System.Windows.Forms.Button();
             this.btnRemoveCategory = new System.Windows.Forms.Button();
             this.btnAddCategory = new System.Windows.Forms.Button();
             this.categoryListView = new System.Windows.Forms.ListView();
@@ -257,7 +254,6 @@ namespace CodeTree
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox1.Controls.Add(this.btnCondensedInfo);
             this.groupBox1.Controls.Add(this.btnRemoveCondensed);
             this.groupBox1.Controls.Add(this.btnAddCondensed);
             this.groupBox1.Controls.Add(this.meaningListView);
@@ -268,23 +264,12 @@ namespace CodeTree
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Condensed meaning units";
             // 
-            // btnCondensedInfo
-            // 
-            this.btnCondensedInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCondensedInfo.Location = new System.Drawing.Point(187, 546);
-            this.btnCondensedInfo.Name = "btnCondensedInfo";
-            this.btnCondensedInfo.Size = new System.Drawing.Size(53, 28);
-            this.btnCondensedInfo.TabIndex = 4;
-            this.btnCondensedInfo.Text = "&Cmu";
-            this.btnCondensedInfo.UseVisualStyleBackColor = true;
-            this.btnCondensedInfo.Click += new System.EventHandler(this.btnCondensedInfo_Click);
-            // 
             // btnRemoveCondensed
             // 
             this.btnRemoveCondensed.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnRemoveCondensed.Location = new System.Drawing.Point(105, 546);
+            this.btnRemoveCondensed.Location = new System.Drawing.Point(144, 546);
             this.btnRemoveCondensed.Name = "btnRemoveCondensed";
-            this.btnRemoveCondensed.Size = new System.Drawing.Size(76, 28);
+            this.btnRemoveCondensed.Size = new System.Drawing.Size(96, 28);
             this.btnRemoveCondensed.TabIndex = 3;
             this.btnRemoveCondensed.Text = "Ta &bort...";
             this.btnRemoveCondensed.UseVisualStyleBackColor = true;
@@ -295,7 +280,7 @@ namespace CodeTree
             this.btnAddCondensed.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnAddCondensed.Location = new System.Drawing.Point(6, 546);
             this.btnAddCondensed.Name = "btnAddCondensed";
-            this.btnAddCondensed.Size = new System.Drawing.Size(93, 28);
+            this.btnAddCondensed.Size = new System.Drawing.Size(96, 28);
             this.btnAddCondensed.TabIndex = 3;
             this.btnAddCondensed.Text = "&Lägg till...";
             this.btnAddCondensed.UseVisualStyleBackColor = true;
@@ -329,7 +314,6 @@ namespace CodeTree
             // 
             this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox3.Controls.Add(this.btnCodeInfo);
             this.groupBox3.Controls.Add(this.btnRemoveCode);
             this.groupBox3.Controls.Add(this.btnAddCode);
             this.groupBox3.Controls.Add(this.codesListView);
@@ -340,23 +324,12 @@ namespace CodeTree
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Koder";
             // 
-            // btnCodeInfo
-            // 
-            this.btnCodeInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCodeInfo.Location = new System.Drawing.Point(192, 546);
-            this.btnCodeInfo.Name = "btnCodeInfo";
-            this.btnCodeInfo.Size = new System.Drawing.Size(29, 28);
-            this.btnCodeInfo.TabIndex = 2;
-            this.btnCodeInfo.Text = "&I";
-            this.btnCodeInfo.UseVisualStyleBackColor = true;
-            this.btnCodeInfo.Click += new System.EventHandler(this.btnCodeInfo_Click);
-            // 
             // btnRemoveCode
             // 
             this.btnRemoveCode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnRemoveCode.Location = new System.Drawing.Point(104, 546);
+            this.btnRemoveCode.Location = new System.Drawing.Point(127, 546);
             this.btnRemoveCode.Name = "btnRemoveCode";
-            this.btnRemoveCode.Size = new System.Drawing.Size(82, 28);
+            this.btnRemoveCode.Size = new System.Drawing.Size(96, 28);
             this.btnRemoveCode.TabIndex = 1;
             this.btnRemoveCode.Text = "Ta b&ort...";
             this.btnRemoveCode.UseVisualStyleBackColor = true;
@@ -367,7 +340,7 @@ namespace CodeTree
             this.btnAddCode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnAddCode.Location = new System.Drawing.Point(6, 546);
             this.btnAddCode.Name = "btnAddCode";
-            this.btnAddCode.Size = new System.Drawing.Size(92, 28);
+            this.btnAddCode.Size = new System.Drawing.Size(96, 28);
             this.btnAddCode.TabIndex = 1;
             this.btnAddCode.Text = "L&ägg till...";
             this.btnAddCode.UseVisualStyleBackColor = true;
@@ -388,7 +361,6 @@ namespace CodeTree
             // 
             this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox4.Controls.Add(this.btnCategoryInfo);
             this.groupBox4.Controls.Add(this.btnRemoveCategory);
             this.groupBox4.Controls.Add(this.btnAddCategory);
             this.groupBox4.Controls.Add(this.categoryListView);
@@ -399,23 +371,12 @@ namespace CodeTree
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Kategorier";
             // 
-            // btnCategoryInfo
-            // 
-            this.btnCategoryInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCategoryInfo.Location = new System.Drawing.Point(181, 546);
-            this.btnCategoryInfo.Name = "btnCategoryInfo";
-            this.btnCategoryInfo.Size = new System.Drawing.Size(34, 28);
-            this.btnCategoryInfo.TabIndex = 2;
-            this.btnCategoryInfo.Text = "&K";
-            this.btnCategoryInfo.UseVisualStyleBackColor = true;
-            this.btnCategoryInfo.Click += new System.EventHandler(this.btnCategoryInfo_Click);
-            // 
             // btnRemoveCategory
             // 
             this.btnRemoveCategory.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnRemoveCategory.Location = new System.Drawing.Point(100, 546);
+            this.btnRemoveCategory.Location = new System.Drawing.Point(119, 546);
             this.btnRemoveCategory.Name = "btnRemoveCategory";
-            this.btnRemoveCategory.Size = new System.Drawing.Size(79, 28);
+            this.btnRemoveCategory.Size = new System.Drawing.Size(96, 28);
             this.btnRemoveCategory.TabIndex = 1;
             this.btnRemoveCategory.Text = "Ta bort&...";
             this.btnRemoveCategory.UseVisualStyleBackColor = true;
@@ -426,7 +387,7 @@ namespace CodeTree
             this.btnAddCategory.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnAddCategory.Location = new System.Drawing.Point(6, 546);
             this.btnAddCategory.Name = "btnAddCategory";
-            this.btnAddCategory.Size = new System.Drawing.Size(88, 28);
+            this.btnAddCategory.Size = new System.Drawing.Size(96, 28);
             this.btnAddCategory.TabIndex = 1;
             this.btnAddCategory.Text = "Lä&gg till...";
             this.btnAddCategory.UseVisualStyleBackColor = true;
@@ -631,9 +592,6 @@ namespace CodeTree
         private System.Windows.Forms.ToolStripMenuItem uppdateraToolStripMenuItem;
         private System.Windows.Forms.Button btnExpand;
         private System.Windows.Forms.Button btnCollapse;
-        private System.Windows.Forms.Button btnCondensedInfo;
-        private System.Windows.Forms.Button btnCodeInfo;
-        private System.Windows.Forms.Button btnCategoryInfo;
         private System.Windows.Forms.Label lblThemes;
         private System.Windows.Forms.Label lblCategories;
         private System.Windows.Forms.Label lblCodes;

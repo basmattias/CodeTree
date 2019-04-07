@@ -244,13 +244,40 @@ namespace CodeTree
                 var frm = new CodeForm(selectedCode, project.Categories, cmuCount);
                 if (frm.ShowDialog() == DialogResult.OK)
                 {
-                    var displayText = $"{selectedCode.Name}";
-                    codesListView.SelectedItems[0].Text = displayText;
-                    codesListView.SelectedItems[0].Name = selectedCode.Name;
-
                     if (selectedCode.Name != selectedCodeText)
                     {
+                        // Code has been renamed
+
+                        // Check if new code name already exists
+                        if (project.Codes.Count(x => x.Name == selectedCode.Name) > 1)
+                        {
+                            // The code exists already - ask if merge
+                            if (MessageBox.Show($"Det finns redan en kod med namn '{selectedCode.Name}', vill du slå ihop dem?",
+                                "Slå ihop koder", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                            {
+                                // Misstake - revert change
+                                selectedCode.Name = selectedCodeText;
+                                return;
+                            }
+                            else
+                            {
+                                // Merge
+                                // Just remove the current code - the CMU:s will hang on the other.
+                                project.Codes.Remove(selectedCode);
+                                codesListView.Items.RemoveByKey(selectedCodeText);
+                                codesListView.Invalidate();
+                            }
+                        }
+                        else
+                        {
+                            // No, this is a new code
+                            var displayText = $"{selectedCode.Name}";
+                            codesListView.SelectedItems[0].Text = displayText;
+                            codesListView.SelectedItems[0].Name = selectedCode.Name;
+                        }
+
                         // Code has been renamed => update condensed meaning units
+
                         foreach (var item in project.CondensedMeaningUnits)
                         {
                             if (item.CodeName == selectedCodeText)
@@ -671,6 +698,66 @@ namespace CodeTree
         private void uppdateraToolStripMenuItem_Click(object sender, EventArgs e)
         {
             UpdateTree();
+            UpdateListViews();
+        }
+
+        private void UpdateListViews()
+        {
+            categoryListView.Items.Clear();
+            codesListView.Items.Clear();
+            meaningListView.Items.Clear();
+
+            foreach (var condensedMeaningUnit in project.CondensedMeaningUnits)
+            {
+                var displayText = $"[{condensedMeaningUnit.InterviewNumber}] {condensedMeaningUnit.Name}";
+                meaningListView.Items.Add(condensedMeaningUnit.Name, displayText, condensedMeaningUnit.CondensedMeaningUnitId);
+            }
+
+            foreach (var code in project.Codes)
+            {
+                codesListView.Items.Add(code.Name, code.Name, code.CodeId);
+            }
+
+            foreach (var cat in project.Categories)
+            {
+                categoryListView.Items.Add(cat.Name, cat.Name, cat.CategoryId);
+            }
+
+            foreach (var code in project.Codes)
+            {
+                if (!project.CondensedMeaningUnits.Any(x => x.CodeName == code.Name))
+                {
+                    var item = codesListView.Items.Find(code.Name, false);
+                    if (item.Count() > 0)
+                    {
+                        item.First().ForeColor = Color.DarkGray;
+                    }
+                }
+            }
+
+            foreach (var cat in project.Categories)
+            {
+                if (!project.Codes.Any(x => x.CategoryName == cat.Name))
+                {
+                    var items = categoryListView.Items.Find(cat.Name, false);
+                    if (items.Count() > 0)
+                    {
+                        items.First().ForeColor = Color.DarkGray;
+                    }
+                }
+            }
+
+            foreach (var cmu in project.CondensedMeaningUnits)
+            {
+                if (string.IsNullOrEmpty(cmu.CodeName))
+                {
+                    var items = meaningListView.Items.Find(cmu.Name, false);
+                    if (items.Count() > 0)
+                    {
+                        items.First().BackColor = Color.Yellow;
+                    }
+                }
+            }
         }
 
         private void btnExpand_Click(object sender, EventArgs e)
@@ -751,22 +838,7 @@ namespace CodeTree
             projectFileName = dlg.FileName;
 
             UpdateTree();
-
-            foreach (var condensedMeaningUnit in project.CondensedMeaningUnits)
-            {
-                var displayText = $"[{condensedMeaningUnit.InterviewNumber}] {condensedMeaningUnit.Name}";
-                meaningListView.Items.Add(condensedMeaningUnit.Name, displayText, condensedMeaningUnit.CondensedMeaningUnitId);
-            }
-
-            foreach (var code in project.Codes)
-            {
-                codesListView.Items.Add(code.Name, code.Name, code.CodeId);
-            }
-
-            foreach (var cat in project.Categories)
-            {
-                categoryListView.Items.Add(cat.Name, cat.Name, cat.CategoryId);
-            }
+            UpdateListViews();
         }
 
         private void sparaSomToolStripMenuItem_Click(object sender, EventArgs e)

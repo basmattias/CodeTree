@@ -33,7 +33,7 @@ namespace CodeTree
 
         private void CondensedMeaningUnitForm_Load(object sender, EventArgs e)
         {
-            cmbCodeList.Items.AddRange(codeList.Select(x => x.Name).ToArray());
+            cmbCodeList.Items.AddRange(codeList.OrderBy(x => x.Name).Select(x => x.Name).ToArray());
             if (!string.IsNullOrEmpty(condensedMeaningUnit.CodeName))
             {
                 cmbCodeList.Text = condensedMeaningUnit.CodeName;
