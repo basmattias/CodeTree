@@ -580,6 +580,22 @@ namespace CodeTree
                         categoryListView.Items.Add(selectedCategory, selectedCategory, newCategory.CategoryId);
                     }
                 }
+                // and the category list
+                foreach (var item in code.CategoryNames)
+                {
+                    var existingCategory = project.Categories.Find(x => x.Name == item);
+                    if (existingCategory == null)
+                    {
+                        // New category
+                        var newCategory = new Category()
+                        {
+                            Name = selectedCategory
+                        };
+
+                        project.Categories.Add(newCategory);
+                        categoryListView.Items.Add(selectedCategory, selectedCategory, newCategory.CategoryId);
+                    }
+                }
 
                 ProjectChanged();
                 UpdateTree();
@@ -657,6 +673,22 @@ namespace CodeTree
 
                             project.Categories.Add(newcategory);
                             categoryListView.Items.Add(selectedCategoryName, selectedCategoryName, newcategory.CategoryId);
+                        }
+                    }
+                    // and the category list
+                    foreach (var item in selectedCode.CategoryNames)
+                    {
+                        var existingCategory = project.Categories.Find(x => x.Name == item);
+                        if (existingCategory == null)
+                        {
+                            // New category
+                            var newCategory = new Category()
+                            {
+                                Name = selectedCategoryName
+                            };
+
+                            project.Categories.Add(newCategory);
+                            categoryListView.Items.Add(selectedCategoryName, selectedCategoryName, newCategory.CategoryId);
                         }
                     }
 
@@ -857,7 +889,7 @@ namespace CodeTree
                     {
                         var catNode = new TreeNode(cat.Name);
                         catNode.NodeFont = newFont;
-                        foreach (var code in project.Codes.Where(x => x.CategoryName == cat.Name))
+                        foreach (var code in project.Codes.Where(x => (x.CategoryName == cat.Name) || (x.CategoryNames.Contains(cat.Name))))
                         {
                             var codeNode = new TreeNode(code.Name);
                             codeNode.NodeFont = newFont;
@@ -888,7 +920,7 @@ namespace CodeTree
                 {
                     var catNode = new TreeNode(cat.Name);
                     catNode.NodeFont = newFont;
-                    foreach (var code in project.Codes.Where(x => x.CategoryName == cat.Name))
+                    foreach (var code in project.Codes.Where(x => (x.CategoryName == cat.Name) || (x.CategoryNames.Contains(cat.Name))))
                     {
                         var codeNode = new TreeNode(code.Name);
                         codeNode.NodeFont = newFont;
@@ -913,7 +945,7 @@ namespace CodeTree
                 var unCatNode = new TreeNode("(koder utan kategori)");
                 unCatNode.NodeFont = newFont;
 
-                foreach (var code in project.Codes.Where(x => string.IsNullOrEmpty(x.CategoryName)))
+                foreach (var code in project.Codes.Where(x => string.IsNullOrEmpty(x.CategoryName) && (x.CategoryNames.Count == 0)))
                 {
                     var codeNode = new TreeNode(code.Name);
                     codeNode.NodeFont = newFont;
@@ -942,7 +974,7 @@ namespace CodeTree
                 {
                     var catNode = new TreeNode(cat.Name);
                     catNode.NodeFont = newFont;
-                    foreach (var code in project.Codes.Where(x => x.CategoryName == cat.Name))
+                    foreach (var code in project.Codes.Where(x => (x.CategoryName == cat.Name) || (x.CategoryNames.Contains(cat.Name))))
                     {
                         var codeNode = new TreeNode(code.Name);
                         codeNode.NodeFont = newFont;
@@ -965,7 +997,7 @@ namespace CodeTree
                 // And then those without category
                 var unNode = new TreeNode("(saknar kategori)");
                 unNode.NodeFont = newFont;
-                foreach (var code in project.Codes.Where(x => string.IsNullOrEmpty(x.CategoryName)))
+                foreach (var code in project.Codes.Where(x => string.IsNullOrEmpty(x.CategoryName) && (x.CategoryNames.Count == 0)))
                 {
                     var codeNode = new TreeNode(code.Name);
                     codeNode.NodeFont = newFont;
@@ -1096,7 +1128,7 @@ namespace CodeTree
 
             foreach (var cat in project.Categories)
             {
-                if (!project.Codes.Any(x => x.CategoryName == cat.Name))
+                if (!project.Codes.Any(x => (x.CategoryName == cat.Name) || (x.CategoryNames.Contains(cat.Name))))
                 {
                     var items = categoryListView.Items.Find(cat.Name, false);
                     if (items.Count() > 0)

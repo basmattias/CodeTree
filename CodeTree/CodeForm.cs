@@ -41,12 +41,40 @@ namespace CodeTree
             {
                 cmbCategories.Text = code.CategoryName;
             }
+
+            foreach (var item in code.CategoryNames)
+            {
+                lbCategories.Items.Add(item);
+            }
         }
 
         private void btnOk_Click(object sender, EventArgs e)
         {
             code.Name = tbName.Text;
             code.CategoryName = cmbCategories.Text;
+
+            code.CategoryNames = new List<string>();
+            foreach (var item in lbCategories.Items)
+            {
+                code.CategoryNames.Add((string) item);
+            }
+        }
+
+        private void btnAddCategory_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(cmbCategories.Text))
+            {
+                if (!lbCategories.Items.Contains(cmbCategories.Text))
+                {
+                    lbCategories.Items.Add(cmbCategories.Text);
+                }
+            }
+        }
+
+        private void lbCategories_DoubleClick(object sender, EventArgs e)
+        {
+            lbCategories.Items.RemoveAt(lbCategories.SelectedIndex);
+            cmbCategories.Text = string.Empty;
         }
     }
 }
