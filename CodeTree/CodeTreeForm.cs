@@ -477,6 +477,22 @@ namespace CodeTree
                         codesListView.Items.Add(selectedCodeName, selectedCodeName, newCode.CodeId);
                     }
                 }
+                // and the code list
+                foreach (var item in condensedMeaningUnit.CodeNames)
+                {
+                    var existingCode = project.Codes.Find(x => x.Name == item);
+                    if (existingCode == null)
+                    {
+                        // New code
+                        var newCode = new Code()
+                        {
+                            Name = selectedCodeName
+                        };
+
+                        project.Codes.Add(newCode);
+                        codesListView.Items.Add(selectedCodeName, selectedCodeName, newCode.CodeId);
+                    }
+                }
 
                 ProjectChanged();
                 UpdateTree();
@@ -514,6 +530,22 @@ namespace CodeTree
 
                             project.Codes.Add(newCode);
                             codesListView.Items.Add(selectedCodeName, selectedCodeName, newCode.CodeId);
+                        }
+                        // and the code list
+                        foreach (var item in selectedCmu.CodeNames)
+                        {
+                            existingCode = project.Codes.Find(x => x.Name == item);
+                            if (existingCode == null)
+                            {
+                                // New code
+                                var newCode = new Code()
+                                {
+                                    Name = selectedCodeName
+                                };
+
+                                project.Codes.Add(newCode);
+                                codesListView.Items.Add(selectedCodeName, selectedCodeName, newCode.CodeId);
+                            }
                         }
                     }
                     ProjectChanged();
@@ -893,7 +925,7 @@ namespace CodeTree
                         {
                             var codeNode = new TreeNode(code.Name);
                             codeNode.NodeFont = newFont;
-                            foreach (var cmu in project.CondensedMeaningUnits.Where(x => x.CodeName == code.Name))
+                            foreach (var cmu in project.CondensedMeaningUnits.Where(x => (x.CodeName == code.Name) || (x.CodeNames.Contains(code.Name))))
                             {
                                 var cmuNode = new TreeNode($"[{cmu.InterviewNumber}] {cmu.Name}");
                                 cmuNode.NodeFont = newFont;
@@ -924,7 +956,7 @@ namespace CodeTree
                     {
                         var codeNode = new TreeNode(code.Name);
                         codeNode.NodeFont = newFont;
-                        foreach (var cmu in project.CondensedMeaningUnits.Where(x => x.CodeName == code.Name))
+                        foreach (var cmu in project.CondensedMeaningUnits.Where(x => (x.CodeName == code.Name) || (x.CodeNames.Contains(code.Name))))
                         {
                             var cmuNode = new TreeNode($"[{cmu.InterviewNumber}] {cmu.Name}");
                             cmuNode.NodeFont = newFont;
@@ -949,7 +981,7 @@ namespace CodeTree
                 {
                     var codeNode = new TreeNode(code.Name);
                     codeNode.NodeFont = newFont;
-                    foreach (var cmu in project.CondensedMeaningUnits.Where(x => x.CodeName == code.Name))
+                    foreach (var cmu in project.CondensedMeaningUnits.Where(x => (x.CodeName == code.Name) || (x.CodeNames.Contains(code.Name))))
                     {
                         var cmuNode = new TreeNode($"[{cmu.InterviewNumber}] {cmu.Name}");
                         cmuNode.NodeFont = newFont;
@@ -978,7 +1010,7 @@ namespace CodeTree
                     {
                         var codeNode = new TreeNode(code.Name);
                         codeNode.NodeFont = newFont;
-                        foreach (var cmu in project.CondensedMeaningUnits.Where(x => x.CodeName == code.Name))
+                        foreach (var cmu in project.CondensedMeaningUnits.Where(x => (x.CodeName == code.Name) || (x.CodeNames.Contains(code.Name))))
                         {
                             var cmuNode = new TreeNode($"[{cmu.InterviewNumber}] {cmu.Name}");
                             cmuNode.NodeFont = newFont;
@@ -1001,7 +1033,7 @@ namespace CodeTree
                 {
                     var codeNode = new TreeNode(code.Name);
                     codeNode.NodeFont = newFont;
-                    foreach (var cmu in project.CondensedMeaningUnits.Where(x => x.CodeName == code.Name))
+                    foreach (var cmu in project.CondensedMeaningUnits.Where(x => (x.CodeName == code.Name) || (x.CodeNames.Contains(code.Name))))
                     {
                         var cmuNode = new TreeNode($"[{cmu.InterviewNumber}] {cmu.Name}");
                         cmuNode.NodeFont = newFont;
@@ -1024,7 +1056,7 @@ namespace CodeTree
                 {
                     var codeNode = new TreeNode(code.Name);
                     codeNode.NodeFont = newFont;
-                    foreach (var cmu in project.CondensedMeaningUnits.Where(x => x.CodeName == code.Name))
+                    foreach (var cmu in project.CondensedMeaningUnits.Where(x => (x.CodeName == code.Name) || (x.CodeNames.Contains(code.Name))))
                     {
                         var cmuNode = new TreeNode($"[{cmu.InterviewNumber}] {cmu.Name}");
                         cmuNode.NodeFont = newFont;
@@ -1040,7 +1072,7 @@ namespace CodeTree
                 }
                 var unNode = new TreeNode("(saknar kategori)");
                 unNode.NodeFont = newFont;
-                foreach (var cmu in project.CondensedMeaningUnits.Where(x => string.IsNullOrEmpty(x.CodeName)))
+                foreach (var cmu in project.CondensedMeaningUnits.Where(x => (string.IsNullOrEmpty(x.CodeName) && x.CodeNames.Count == 0)))
                 {
                     var cmuNode = new TreeNode($"[{cmu.InterviewNumber}] {cmu.Name}");
                     cmuNode.NodeFont = newFont;
@@ -1114,6 +1146,7 @@ namespace CodeTree
                 categoryListView.Items.Add(cat.Name, cat.Name, cat.CategoryId);
             }
 
+            // Mark all codes that are empty
             foreach (var code in project.Codes)
             {
                 if (!project.CondensedMeaningUnits.Any(x => x.CodeName == code.Name))
@@ -1126,6 +1159,7 @@ namespace CodeTree
                 }
             }
 
+            // Mark all categories that are empty
             foreach (var cat in project.Categories)
             {
                 if (!project.Codes.Any(x => (x.CategoryName == cat.Name) || (x.CategoryNames.Contains(cat.Name))))
@@ -1138,9 +1172,10 @@ namespace CodeTree
                 }
             }
 
+            // Mark CMU's that don't belong to any code
             foreach (var cmu in project.CondensedMeaningUnits)
             {
-                if (string.IsNullOrEmpty(cmu.CodeName))
+                if (string.IsNullOrEmpty(cmu.CodeName) && (cmu.CodeNames.Count == 0))
                 {
                     var items = meaningListView.Items.Find(cmu.Name, false);
                     if (items.Count() > 0)

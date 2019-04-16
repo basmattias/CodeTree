@@ -17,7 +17,6 @@ namespace CodeTree.Models
         public string Name { get; set; }
         
         public string CategoryName { get; set; }
-
         public List<string> CategoryNames { get; set; }
     }
 }

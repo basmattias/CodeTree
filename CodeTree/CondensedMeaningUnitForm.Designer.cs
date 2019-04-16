@@ -41,12 +41,16 @@
             this.btnAdd = new System.Windows.Forms.Button();
             this.tbMeaningUnit = new System.Windows.Forms.TextBox();
             this.lbMeaningUnits = new System.Windows.Forms.ListBox();
+            this.btnAddCode = new System.Windows.Forms.Button();
+            this.lbCodes = new System.Windows.Forms.ListBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.lbCodes);
+            this.groupBox1.Controls.Add(this.btnAddCode);
             this.groupBox1.Controls.Add(this.cmbCodeList);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.tbInterview);
@@ -55,7 +59,7 @@
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Location = new System.Drawing.Point(13, 13);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(326, 158);
+            this.groupBox1.Size = new System.Drawing.Size(326, 297);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Condensed meaning unit";
@@ -111,12 +115,11 @@
             // 
             // btnOk
             // 
-            this.btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOk.Location = new System.Drawing.Point(48, 452);
+            this.btnOk.Location = new System.Drawing.Point(439, 328);
             this.btnOk.Name = "btnOk";
-            this.btnOk.Size = new System.Drawing.Size(107, 27);
+            this.btnOk.Size = new System.Drawing.Size(136, 27);
             this.btnOk.TabIndex = 1;
             this.btnOk.Text = "&OK";
             this.btnOk.UseVisualStyleBackColor = true;
@@ -124,12 +127,11 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(187, 452);
+            this.btnCancel.Location = new System.Drawing.Point(581, 328);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(107, 27);
+            this.btnCancel.Size = new System.Drawing.Size(133, 27);
             this.btnCancel.TabIndex = 1;
             this.btnCancel.Text = "&Avbryt";
             this.btnCancel.UseVisualStyleBackColor = true;
@@ -142,16 +144,16 @@
             this.groupBox2.Controls.Add(this.btnAdd);
             this.groupBox2.Controls.Add(this.tbMeaningUnit);
             this.groupBox2.Controls.Add(this.lbMeaningUnits);
-            this.groupBox2.Location = new System.Drawing.Point(13, 178);
+            this.groupBox2.Location = new System.Drawing.Point(346, 13);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(326, 268);
+            this.groupBox2.Size = new System.Drawing.Size(374, 297);
             this.groupBox2.TabIndex = 6;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Meaning units";
             // 
             // btnAdd
             // 
-            this.btnAdd.Location = new System.Drawing.Point(247, 22);
+            this.btnAdd.Location = new System.Drawing.Point(295, 22);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(73, 28);
             this.btnAdd.TabIndex = 8;
@@ -161,9 +163,9 @@
             // 
             // tbMeaningUnit
             // 
-            this.tbMeaningUnit.Location = new System.Drawing.Point(12, 22);
+            this.tbMeaningUnit.Location = new System.Drawing.Point(12, 25);
             this.tbMeaningUnit.Name = "tbMeaningUnit";
-            this.tbMeaningUnit.Size = new System.Drawing.Size(228, 22);
+            this.tbMeaningUnit.Size = new System.Drawing.Size(277, 22);
             this.tbMeaningUnit.TabIndex = 7;
             // 
             // lbMeaningUnits
@@ -173,10 +175,33 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lbMeaningUnits.FormattingEnabled = true;
             this.lbMeaningUnits.ItemHeight = 16;
-            this.lbMeaningUnits.Location = new System.Drawing.Point(12, 82);
+            this.lbMeaningUnits.Location = new System.Drawing.Point(12, 66);
             this.lbMeaningUnits.Name = "lbMeaningUnits";
-            this.lbMeaningUnits.Size = new System.Drawing.Size(308, 180);
+            this.lbMeaningUnits.Size = new System.Drawing.Size(356, 212);
             this.lbMeaningUnits.TabIndex = 9;
+            this.lbMeaningUnits.DoubleClick += new System.EventHandler(this.lbMeaningUnits_DoubleClick);
+            // 
+            // btnAddCode
+            // 
+            this.btnAddCode.Location = new System.Drawing.Point(7, 151);
+            this.btnAddCode.Name = "btnAddCode";
+            this.btnAddCode.Size = new System.Drawing.Size(73, 28);
+            this.btnAddCode.TabIndex = 6;
+            this.btnAddCode.Text = "L&ägg till";
+            this.btnAddCode.UseVisualStyleBackColor = true;
+            this.btnAddCode.Click += new System.EventHandler(this.btnAddCode_Click);
+            // 
+            // lbCodes
+            // 
+            this.lbCodes.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbCodes.FormattingEnabled = true;
+            this.lbCodes.ItemHeight = 16;
+            this.lbCodes.Location = new System.Drawing.Point(9, 195);
+            this.lbCodes.Name = "lbCodes";
+            this.lbCodes.Size = new System.Drawing.Size(311, 84);
+            this.lbCodes.TabIndex = 7;
+            this.lbCodes.DoubleClick += new System.EventHandler(this.lbCodes_DoubleClick);
             // 
             // CondensedMeaningUnitForm
             // 
@@ -184,7 +209,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(361, 491);
+            this.ClientSize = new System.Drawing.Size(742, 367);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOk);
@@ -215,5 +240,7 @@
         private System.Windows.Forms.Button btnAdd;
         private System.Windows.Forms.TextBox tbMeaningUnit;
         private System.Windows.Forms.ListBox lbMeaningUnits;
+        private System.Windows.Forms.ListBox lbCodes;
+        private System.Windows.Forms.Button btnAddCode;
     }
 }

@@ -43,6 +43,11 @@ namespace CodeTree
             {
                 lbMeaningUnits.Items.AddRange(condensedMeaningUnit.MeaningUnits.Select(x => x.Name).ToArray());
             }
+
+            foreach (var item in condensedMeaningUnit.CodeNames)
+            {
+                lbCodes.Items.Add(item);
+            }
         }
 
         private void btnOk_Click(object sender, EventArgs e)
@@ -60,6 +65,12 @@ namespace CodeTree
                 });
             }
             condensedMeaningUnit.MeaningUnits = muList;
+
+            condensedMeaningUnit.CodeNames = new List<string>();
+            foreach (var item in lbCodes.Items)
+            {
+                condensedMeaningUnit.CodeNames.Add((string)item);
+            }
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
@@ -71,6 +82,29 @@ namespace CodeTree
                 tbMeaningUnit.Text = "";
                 tbMeaningUnit.Focus();
             }
+        }
+
+        private void btnAddCode_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(cmbCodeList.Text))
+            {
+                if (!lbCodes.Items.Contains(cmbCodeList.Text))
+                {
+                    lbCodes.Items.Add(cmbCodeList.Text);
+                }
+            }
+        }
+
+        private void lbCodes_DoubleClick(object sender, EventArgs e)
+        {
+            lbCodes.Items.RemoveAt(lbCodes.SelectedIndex);
+            cmbCodeList.Text = string.Empty;
+        }
+
+        private void lbMeaningUnits_DoubleClick(object sender, EventArgs e)
+        {
+            lbMeaningUnits.Items.RemoveAt(lbMeaningUnits.SelectedIndex);
+            tbMeaningUnit.Text = string.Empty;
         }
     }
 }
